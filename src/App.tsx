@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'; // react
+import React, { useMemo, useState, useEffect } from 'react'; // react
 import UtterTable from './components/UtterTable'; // table
 import type { ApiResp, ClipItem, DiarItem, RowItem } from './types'; // types
 import { best_match } from './lib/similarity'; // similarity
@@ -8,13 +8,24 @@ const API_ENDPOINT = 'https://files.maila.ai/process/url'; // api endpoint
 const MATCH_THRESHOLD = 0.5; // normalized max distance
 
 export default function App() { // app
-  const [url, set_url] = useState('https://www.youtube.com/watch?v=cttEXJAFPsU'); // input url
+  const [url, set_url] = useState(''); // input url
   const [loading, set_loading] = useState(false); // loading
   const [notice, set_notice] = useState<string | null>(null); // processing notice
   const [error, set_error] = useState<string | null>(null); // error
   const [rows, set_rows] = useState<RowItem[]>([]); // table rows
   const [folder, set_folder] = useState<string | null>(null); // request folder
   const [audio_file, set_audio_file] = useState<string | null>(null); // full audio
+  const [dark, set_dark] = useState<boolean>(false); // dark mode
+
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem('prefers-dark');
+      if (stored === '1') {
+        set_dark(true);
+        document.documentElement.classList.add('dark');
+      }
+    } catch (e) {}
+  }, []);
 
   const can_submit = useMemo(() => url.trim().length > 0 && !loading, [url, loading]); // can submit
 
@@ -97,10 +108,29 @@ export default function App() { // app
   }
 
   return (
-    <div className="max-w-5xl mx-auto p-6 space-y-6"> {/* container */}
-      <header className="space-y-2"> {/* header */}
-        <h1 className="text-2xl font-semibold">Utterance Extract</h1> {/* title */}
-        <p className="text-slate-600">Paste a video URL. We will process, list utterances, and link available clips.</p> {/* subtitle */}
+    <div className="max-w-5xl mx-auto p-6 space-y-6 bg-slate-50 text-slate-900 dark:bg-slate-900 dark:text-slate-200"> {/* container */}
+      <header className="flex items-start justify-between gap-4"> {/* header */}
+        <div className="space-y-2"> {/* title+subtitle */}
+          <h1 className="text-2xl font-semibold">Utterance Extract</h1> {/* title */}
+          <p className="text-slate-600 dark:text-slate-400">Paste a video URL. We will process, list utterances, and link available clips.</p> {/* subtitle */}
+        </div>
+        <div className="flex items-center gap-2"> {/* theme toggle */}
+          <button
+            type="button"
+            onClick={() => {
+              const next = !dark;
+              set_dark(next);
+              try {
+                if (next) document.documentElement.classList.add('dark');
+                else document.documentElement.classList.remove('dark');
+                localStorage.setItem('prefers-dark', next ? '1' : '0');
+              } catch (e) {}
+            }}
+            className="px-3 py-1 rounded border border-slate-200 bg-white text-slate-900 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-200"
+          >
+            {dark ? 'Light' : 'Dark'}
+          </button>
+        </div>
       </header>
 
       <form onSubmit={on_submit} className="flex items-center gap-3"> {/* form */}

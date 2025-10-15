@@ -6,6 +6,11 @@
   color-scheme: light; /* light scheme */
 }
 
+/* dark theme tweaks */
+.dark {
+  color-scheme: dark;
+}
+
 body, #root { /* layout */
   min-height: 100vh; /* full height */
 }
