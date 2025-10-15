@@ -108,7 +108,7 @@ export default function App() { // app
   }
 
   return (
-    <div className="max-w-5xl mx-auto p-6 space-y-6 bg-slate-50 text-slate-900 dark:bg-slate-900 dark:text-slate-200"> {/* container */}
+    <div className="max-w-5xl mx-auto p-6 space-y-6"> {/* container */}
       <header className="flex items-start justify-between gap-4"> {/* header */}
         <div className="space-y-2"> {/* title+subtitle */}
           <h1 className="text-2xl font-semibold">Utterance Extract</h1> {/* title */}
@@ -166,7 +166,7 @@ export default function App() { // app
         </div>
       )}
 
-      <div className="bg-white border border-slate-200 rounded p-3"> {/* table box */}
+      <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded p-3"> {/* table box */}
         {rows.length > 0 ? ( // rows
           <UtterTable rows={rows} /> // table
         ) : (

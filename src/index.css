@@ -6,7 +6,16 @@
   color-scheme: light; /* light scheme */
 }
 
-/* dark theme tweaks */
+/* apply global background and text so the whole page switches */
+body, #root {
+  @apply min-h-screen bg-slate-50 text-slate-900;
+}
+
+.dark body, .dark #root {
+  @apply bg-slate-900 text-slate-200;
+}
+
+/* dark theme tweaks (color-scheme for form controls) */
 .dark {
   color-scheme: dark;
 }
