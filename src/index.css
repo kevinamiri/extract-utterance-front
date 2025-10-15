@@ -1,0 +1,11 @@
+@tailwind base; /* base */
+@tailwind components; /* components */
+@tailwind utilities; /* utilities */
+
+:root { /* root vars */
+  color-scheme: light; /* light scheme */
+}
+
+body, #root { /* layout */
+  min-height: 100vh; /* full height */
+}
